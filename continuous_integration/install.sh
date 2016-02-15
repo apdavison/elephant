@@ -83,6 +83,7 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     source testenv/bin/activate
 
     mkdir -p $HOME/.cache/pip/wheels
+    pip install wheel
     pip install nose
     pip install coverage
     # build wheels only if none present
