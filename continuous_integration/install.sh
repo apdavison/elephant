@@ -81,10 +81,16 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     # Create a new virtualenv using system site packages for numpy and scipy
     virtualenv --system-site-packages testenv
     source testenv/bin/activate
+
+    mkdir -p $HOME/.cache/pip/wheels
     pip install nose
     pip install coverage
-    pip install numpy==$NUMPY_VERSION
-    pip install scipy==$SCIPY_VERSION
+    # build wheels only if none present
+    travis_wait pip wheel --find-links=$HOME/.cache/pip/wheels --use-wheel --wheel-dir=$HOME/.cache/pip/wheels numpy==$NUMPY_VERSION
+    travis_wait pip wheel --find-links=$HOME/.cache/pip/wheels --use-wheel --wheel-dir=$HOME/.cache/pip/wheels scipy==$SCIPY_VERSION
+    # now install from them
+    pip install --no-index --find-links=$HOME/.cache/pip/wheels numpy
+    pip install --no-index --find-links=$HOME/.cache/pip/wheels scipy
     pip install six
     pip install quantities
 fi
