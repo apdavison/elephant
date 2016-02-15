@@ -10,7 +10,6 @@ addons:
       - libatlas-base-dev
       - liblapack-dev
       - gfortran
-      - python-scipy
 
 env:
   matrix:
